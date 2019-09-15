@@ -51,11 +51,13 @@ console.log("Power Consumption Nums: ", powerConsumptionArray, powerConsumptionA
 
 const { performance } = require('perf_hooks');
 
+swap_num = 0;
+comparing_num = 0;
+
 function insertionSortByConsumption(powerConsumptionArray) {
     var start = performance.now()
     console.log("The insertion sort by power consumption")
-    swap_num = 0;
-    comparing_num = 0;
+    
 
     for (let i = 1; i < powerConsumptionArray.length; i++) {
 
@@ -106,6 +108,7 @@ function pivot(waterVolumeArray, start = 0) {
 
 function quickSortByWaterVolume(waterVolumeArray, left = 0, right = waterVolumeArray.length - 1) {
     if (left < right) {
+        compare_count++;
         let pivot_index = pivot(waterVolumeArray, left, right)
         //left side
         quickSortByWaterVolume(waterVolumeArray, left, pivot_index - 1);
