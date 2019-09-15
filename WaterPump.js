@@ -119,11 +119,11 @@ function quickSortByWaterVolume(waterVolumeArray, left = 0, right = waterVolumeA
 }
 
 insertionSortByConsumption(powerConsumptionArray);
-var start = performance.now()
 console.log("The quick sort by water volume")
+var start = performance.now()
 quickSortByWaterVolume(waterVolumeArray);
+var end = performance.now()
 console.log("Comparing: ", compare_count);
 console.log("Swapping: ", swap_count);
-var end = performance.now()
 console.log("Took", (end - start).toFixed(4), "miliseconds")
 console.log(waterVolumeArray);
