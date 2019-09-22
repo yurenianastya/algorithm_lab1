@@ -19,6 +19,7 @@ let WaterPump = class {
         return this.powerConsumption
     }
 };
+
 let newPump = new WaterPump(150, "Wilo", 10);
 let newPump1 = new WaterPump(750, "Bosch", 440);
 let newPump2 = new WaterPump(940, "Siemens", 200);
@@ -27,49 +28,40 @@ let newPump4 = new WaterPump(850, "Vossche", 70);
 let newPump5 = new WaterPump(259, "Sulzer", 240);
 let newPump6 = new WaterPump(670, "Test", 230);
 // declaring array for sorting func
-let powerConsumptionArray = [];
-let waterVolumeArray = [];
 
-powerConsumptionArray.push(newPump.getPowerConsumption)
-powerConsumptionArray.push(newPump1.getPowerConsumption)
-powerConsumptionArray.push(newPump2.getPowerConsumption)
-powerConsumptionArray.push(newPump3.getPowerConsumption)
-powerConsumptionArray.push(newPump4.getPowerConsumption)
-powerConsumptionArray.push(newPump5.getPowerConsumption)
-powerConsumptionArray.push(newPump6.getPowerConsumption)
+let objects_array = [
+    newPump,
+    newPump1,
+    newPump2,
+    newPump3,
+    newPump4,
+    newPump5,
+    newPump6
+]
 
-waterVolumeArray.push(newPump.getWaterVolume)
-waterVolumeArray.push(newPump1.getWaterVolume)
-waterVolumeArray.push(newPump2.getWaterVolume)
-waterVolumeArray.push(newPump3.getWaterVolume)
-waterVolumeArray.push(newPump4.getWaterVolume)
-waterVolumeArray.push(newPump5.getWaterVolume)
-waterVolumeArray.push(newPump6.getWaterVolume)
-// arrays before sorting
-console.log("Water Volume Nums: ", waterVolumeArray, waterVolumeArray.length)
-console.log("Power Consumption Nums: ", powerConsumptionArray, powerConsumptionArray.length)
+console.log("Objects list: ", objects_array, objects_array.length)
 
 const { performance } = require('perf_hooks');
 
 swap_num = 0;
 comparing_num = 0;
 
-function insertionSortByConsumption(powerConsumptionArray) {
+function insertionSortByConsumption(objects_array) {
     var start = performance.now()
     console.log("The insertion sort by power consumption")
-    
 
-    for (let i = 1; i < powerConsumptionArray.length; i++) {
 
-        let key = powerConsumptionArray[i];
+    for (let i = 1; i < objects_array.length; i++) {
+
+        let key = objects_array[i].powerConsumption;
         let check_num = i - 1;
 
-        while (check_num >= 0 && powerConsumptionArray[check_num] > key) {
-            powerConsumptionArray[check_num + 1] = powerConsumptionArray[check_num];
+        while (check_num >= 0 && objects_array[check_num].powerConsumption > key) {
+            objects_array[check_num + 1].powerConsumption = objects_array[check_num].powerConsumption;
             check_num = check_num - 1;
             comparing_num++;
         }
-        powerConsumptionArray[check_num + 1] = key;
+        objects_array[check_num + 1].powerConsumption = key;
         swap_num++;
 
     }
@@ -77,53 +69,53 @@ function insertionSortByConsumption(powerConsumptionArray) {
     console.log("Swapping: ", swap_num);
     var end = performance.now()
     console.log("Took", (end - start).toFixed(4), "miliseconds")
-    return console.log(powerConsumptionArray);
+    return console.log(objects_array);
 }
 
 swap_count = 0;
 compare_count = 0;
-function pivot(waterVolumeArray, start = 0) {
-    function swap(waterVolumeArray, i, j) {
-        let temp = waterVolumeArray[i];
-        waterVolumeArray[i] = waterVolumeArray[j];
-        waterVolumeArray[j] = temp;
+function pivot(objects_array, start = 0) {
+    function swap(objects_array, i, j) {
+        let temp = objects_array[i].waterVolume;
+        objects_array[i].waterVolume = objects_array[j].waterVolume;
+        objects_array[j].waterVolume = temp;
     }
 
-    let pivot = waterVolumeArray[start];
+    let pivot = objects_array[start].waterVolume;
     let swap_index = start;
 
-    for (let i = start + 1; i < waterVolumeArray.length; i++) {
+    for (let i = start + 1; i < objects_array.length; i++) {
         compare_count++;
-        if (pivot > waterVolumeArray[i]) {
+        if (pivot > objects_array[i].waterVolume) {
             swap_index++;
             swap_count++
-            swap(waterVolumeArray, swap_index, i)
+            swap(objects_array, swap_index, i)
         }
     }
     swap_count++;
-    swap(waterVolumeArray, start, swap_index)
+    swap(objects_array, start, swap_index)
     return swap_index;
 
 }
 
-function quickSortByWaterVolume(waterVolumeArray, left = 0, right = waterVolumeArray.length - 1) {
+function quickSortByWaterVolume(objects_array, left = 0, right = objects_array.length - 1) {
     if (left < right) {
         compare_count++;
-        let pivot_index = pivot(waterVolumeArray, left, right)
+        let pivot_index = pivot(objects_array, left, right)
         //left side
-        quickSortByWaterVolume(waterVolumeArray, left, pivot_index - 1);
+        quickSortByWaterVolume(objects_array, left, pivot_index - 1);
         //right side
-        quickSortByWaterVolume(waterVolumeArray, pivot_index + 1, right);
+        quickSortByWaterVolume(objects_array, pivot_index + 1, right);
     }
-    return waterVolumeArray;
+    return objects_array;
 }
 
-insertionSortByConsumption(powerConsumptionArray);
-console.log("The quick sort by water volume")
+insertionSortByConsumption(objects_array);
 var start = performance.now()
-quickSortByWaterVolume(waterVolumeArray);
-var end = performance.now()
+console.log("The quick sort by water volume")
+quickSortByWaterVolume(objects_array);
 console.log("Comparing: ", compare_count);
 console.log("Swapping: ", swap_count);
+var end = performance.now()
 console.log("Took", (end - start).toFixed(4), "miliseconds")
-console.log(waterVolumeArray);
+console.log(objects_array);
