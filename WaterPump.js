@@ -39,12 +39,12 @@ let objects_array = [
     newPump6
 ]
 
-console.log("Objects list: ", objects_array, objects_array.length)
+console.log("Objects list: ", objects_array, "List length is: ", objects_array.length)
 
 const { performance } = require('perf_hooks');
 
-swap_num = 0;
-comparing_num = 0;
+insertion_swaps = 0;
+insertion_comparisons = 0;
 
 function insertionSortByConsumption(objects_array) {
     for (let i = 1; i < objects_array.length; i++) {
@@ -55,18 +55,16 @@ function insertionSortByConsumption(objects_array) {
         while (check_num >= 0 && objects_array[check_num].powerConsumption > key) {
             objects_array[check_num + 1].powerConsumption = objects_array[check_num].powerConsumption;
             check_num = check_num - 1;
-            comparing_num++;
+            insertion_comparisons++;
         }
         objects_array[check_num + 1].powerConsumption = key;
-        swap_num++;
-
+        insertion_swaps++;
     }
-
     return objects_array;
 }
 
-swap_count = 0;
-compare_count = 0;
+quicksort_swaps = 0;
+quicksort_comparisons = 0;
 function pivot(objects_array, start = 0) {
     function swap(objects_array, i, j) {
         let temp = objects_array[i].waterVolume;
@@ -78,14 +76,14 @@ function pivot(objects_array, start = 0) {
     let swap_index = start;
 
     for (let i = start + 1; i < objects_array.length; i++) {
-        compare_count++;
+        quicksort_comparisons++;
         if (pivot > objects_array[i].waterVolume) {
             swap_index++;
-            swap_count++
+            quicksort_swaps++
             swap(objects_array, swap_index, i)
         }
     }
-    swap_count++;
+    quicksort_swaps++;
     swap(objects_array, start, swap_index)
     return swap_index;
 
@@ -93,7 +91,7 @@ function pivot(objects_array, start = 0) {
 
 function quickSortByWaterVolume(objects_array, left = 0, right = objects_array.length - 1) {
     if (left < right) {
-        compare_count++;
+        quicksort_comparisons++;
         let pivot_index = pivot(objects_array, left, right)
         //left side
         quickSortByWaterVolume(objects_array, left, pivot_index - 1);
@@ -108,8 +106,8 @@ console.log("The insertion sort by power consumption")
 var start = performance.now()
 insertionSortByConsumption(objects_array);
 var end = performance.now()
-console.log("Comparing: ", comparing_num);
-console.log("Swapping: ", swap_num);
+console.log("Comparing: ", insertion_comparisons);
+console.log("Swapping: ", insertion_swaps);
 console.log("Took", (end - start).toFixed(4), "miliseconds")
 console.log(objects_array)
 
@@ -117,7 +115,7 @@ console.log("The quick sort by water volume")
 var start = performance.now()
 quickSortByWaterVolume(objects_array);
 var end = performance.now()
-console.log("Comparing: ", compare_count);
-console.log("Swapping: ", swap_count);
+console.log("Comparing: ", quicksort_comparisons);
+console.log("Swapping: ", quicksort_swaps);
 console.log("Took", (end - start).toFixed(4), "miliseconds")
 console.log(objects_array);
