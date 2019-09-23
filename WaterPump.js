@@ -47,10 +47,6 @@ swap_num = 0;
 comparing_num = 0;
 
 function insertionSortByConsumption(objects_array) {
-    var start = performance.now()
-    console.log("The insertion sort by power consumption")
-
-
     for (let i = 1; i < objects_array.length; i++) {
 
         let key = objects_array[i].powerConsumption;
@@ -65,11 +61,8 @@ function insertionSortByConsumption(objects_array) {
         swap_num++;
 
     }
-    console.log("Comparing: ", comparing_num);
-    console.log("Swapping: ", swap_num);
-    var end = performance.now()
-    console.log("Took", (end - start).toFixed(4), "miliseconds")
-    return console.log(objects_array);
+
+    return objects_array;
 }
 
 swap_count = 0;
@@ -110,12 +103,21 @@ function quickSortByWaterVolume(objects_array, left = 0, right = objects_array.l
     return objects_array;
 }
 
-insertionSortByConsumption(objects_array);
+
+console.log("The insertion sort by power consumption")
 var start = performance.now()
+insertionSortByConsumption(objects_array);
+var end = performance.now()
+console.log("Comparing: ", comparing_num);
+console.log("Swapping: ", swap_num);
+console.log("Took", (end - start).toFixed(4), "miliseconds")
+console.log(objects_array)
+
 console.log("The quick sort by water volume")
+var start = performance.now()
 quickSortByWaterVolume(objects_array);
+var end = performance.now()
 console.log("Comparing: ", compare_count);
 console.log("Swapping: ", swap_count);
-var end = performance.now()
 console.log("Took", (end - start).toFixed(4), "miliseconds")
 console.log(objects_array);
